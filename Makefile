@@ -12,7 +12,7 @@ MANDIR     	:= $(DESTDIR)/share/man
 # __BSD_VISIBLE is for FreeBSD AF_* constants
 # _ALL_SOURCE is for AIX 5.3 LOG_PERROR constant
 #
-NAME		:= pacntlm
+NAME		:= cntlm
 CC		:= gcc
 VER		:= $(shell cat VERSION)
 OS		:= $(shell uname -s)
