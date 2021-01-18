@@ -12,128 +12,11 @@ SonarCloud:
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=versat_cntlm&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=versat_cntlm)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=versat_cntlm&metric=security_rating)](https://sonarcloud.io/dashboard?id=versat_cntlm)
 
-## Installation using packages
-
-Most of the popular distros contain cntlm packages in their repositories.
-For Windows an installer is available.
-
-You can use the procedures described below to prepare a package of current cntlm
-version if desired.
-
-NOTE: generating packages traditionally requires root privileges (to be able to set
-proper ownership and permissions on package members). You can overcome that using
-fakeroot. However, to install your packages you have to be root.
-
-## Creating a SOURCE TARBALL
-
-    make tgz
-
-or
-
-    make tbz2
-
-## Creating DEBIAN PACKAGES
-
-### 1) Quick way to create debian package
-
-    make deb
-
-### 2) From Debian/Ubuntu repository
-
-Get these files (e.g. apt-get source cntlm):
-
-    cntlm_0.XX-X.diff.gz
-    cntlm_0.XX-X.dsc
-    cntlm_0.XX.orig.tar.gz
-
-Compile:
-
-    dpkg-source -x cntlm_0.XX-Y.dsc
-    cd cntlm-0.XX/
-    dpkg-buildpackage -b -rfakeroot
-
-Upon installation, the package takes care of creating a dedicated user for
-cntlm, init script integration, manages eventual configuration file updates
-with new upstream versions, things like restart of the daemon after future
-updates, etc. You can later revert all these changes with one command, should
-you decide to remove cntlm from your system.
-
-## Creating RPM FROM SCRATCH
-
-### 1) Quick way to create RPM
-
-    make rpm    # you'll need root privs. or fakeroot utility
-
-### 2) Detailed howto (or if make rpm doesn't work for you)
-
-To build an RPM package from scratch, as root change to
-/usr/src/[redhat|rpm|whatever]/SOURCES
-
-Copy there all files from cntlm's rpm/ directory plus appropriate version of
-the source tar.bz2 (see Creating a SOURCE TARBALL section above) and type:
-
-    rpmbuild -ba cntlm.spec
-
-Shortly after, you'll have source and binary RPMs ready in your ../SRPMS, resp.
-../RPMS directories.
-
-If your build cannot find the default config file in /etc, you probably have
-broken RPM build environment. You should add this to your ~/.rpmmacros:
-
-    %_sysconfdir    /etc
-
-## Creating RPM FROM *.src.rpm
-
-If you just want to create a binary package from src.rpm, as root type:
-
-    rpmbuild --rebuild pkgname.src.rpm
-
-Resulting binary RPM will be at /usr/src/..../RPMS
-
-If your build cannot find the default config file in /etc, you probably have
-broken RPM build environment. You should add this to your ~/.rpmmacros:
-
-    %_sysconfdir    /etc
-
-## Creating WINDOWS INSTALLER
-
-Install Cygwin and include at least the ghostscript, zip, dos2unix and libgcc
-packages.
-
-In case you are using a 64-bit version of Cygwin: rename cyggcc_s-1.dll to
-cyggcc_s-seh-1.dll in Makefile and win/setup.iss.
-
-Start a Cygwin console by using the shortcut on your desktop or startup menu.
-
-From within the Cygwin command shell:
-
-    cd /cygdrive/yourdrive/your_ctnlm_src_location
-    ./configure
-    make
-
-Prepare all binaries, manuals, config templates, Start Menu links, InnoSetup
-project definition file, installer:
-
-    make win
-
-Now this automatically creates the installer.
-For manually creating the installer you can do this:
-
-Run InnoSetup compiler to pack it all into an automatic installer EXE:
-
-    /your/path/to/ISCC.exe win/setup.iss
-
-or
-
-Open folder "win" in explorer, right click "setup.iss" and select "Compile".
-
-Both will generate an installer in the "cntlm" folder.
-
 ## Traditional installation
 
 First, you have to compile cntlm. Using the Makefile, this should be very easy:
 
-    ./configure
+    ./configure [ --enable-pacparser | --enable-kerberos ]
     make
     make install
 
@@ -143,7 +26,7 @@ required for all threaded applications and is very likely to be part of your
 system already, because it comes with libc. Next, install cntlm onto your
 system like so:
 
-Default installation directories are /usr/sbin, /usr/share/man and /etc. Should
+Default installation directories are /bin, /share/man and /etc. Should
 you want to install cntlm into a different location, change the DESTDIR
 installation prefix (from "/") to add a different installation prefix (e.g.
 /usr/local).  To change individual directories, use BINDIR, MANDIR and
