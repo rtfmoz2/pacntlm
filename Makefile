@@ -3,7 +3,7 @@
 # like, but do not touch more unless you know what you are doing. ;)
 #
 DESTDIR    	:= /usr/local
-SYSCONFDIR 	:= $(DESTDIR)/etc
+SYSCONFDIR 	:= $(DESTDIR)/etc/pacntlm
 BINDIR     	:= $(DESTDIR)/bin
 MANDIR     	:= $(DESTDIR)/share/man
 
