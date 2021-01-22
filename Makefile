@@ -107,6 +107,7 @@ install: $(NAME)
 		install -M 644 -f $(MANDIR)/man1 doc/$(NAME).1; \
 		install -M 600 -c $(SYSCONFDIR) doc/$(NAME).conf; \
 	elif [ "`uname -s`" = "Darwin" ]; then \
+		mkdir $(SYSCONFDIR) 2>/dev/null \ 
 		install -m 755 -s $(NAME) $(BINDIR)/$(NAME); \
 		install -m 644 doc/$(NAME).1 $(MANDIR)/man1/$(NAME).1; \
 		[ -f $(SYSCONFDIR)/$(NAME).conf -o -z "$(SYSCONFDIR)" ] \
